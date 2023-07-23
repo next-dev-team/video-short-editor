@@ -1,5 +1,5 @@
 node_modules
-# *.mp4
+*.mp4
 videos
 tmp
 .DS_Store
