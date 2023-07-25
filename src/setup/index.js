@@ -1,14 +1,27 @@
 const fs = require("fs");
 const path = require("path");
 
+async function setup(dname) {
+    const tmpFolder = path.resolve(dname, "../tmp");
+    const inputFolder = path.resolve(tmpFolder, "input");
+    const outputFolder = path.resolve(tmpFolder, "output");
+    const noAudioFolder = path.resolve(tmpFolder, "no-audio");
 
-async function setup(dname){
-    const tmpFoulder = path.resolve(dname,"../tmp");
-    fs.mkdirSync(tmpFoulder);
-    fs.mkdirSync(tmpFoulder + "/raws");
-    fs.mkdirSync(tmpFoulder + "/edited");
-    fs.mkdirSync(tmpFoulder + "/input");
-    return tmpFoulder;
+    if (!fs.existsSync(tmpFolder)) {
+        fs.mkdirSync(tmpFolder);
+    }
+    if (!fs.existsSync(inputFolder)) {
+        fs.mkdirSync(inputFolder);
+    }
+    if (!fs.existsSync(noAudioFolder)) {
+        fs.mkdirSync(noAudioFolder);
+    }
+    if (!fs.existsSync(outputFolder)) {
+        fs.mkdirSync(outputFolder);
+    }
+
+
+    return tmpFolder;
 }
 
-module.exports = setup;
+module.exports = setup

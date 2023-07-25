@@ -11,7 +11,7 @@ function log(str, color) {
         case "yellow":
             console.log(`\x1b[33m ${timing()} => ${str} \x1b[0m`);
             return
-        case "blue":
+        default:
             console.log(`\x1b[34m ${timing()} => ${str} \x1b[0m`);
             return
     }
