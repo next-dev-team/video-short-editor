@@ -1,21 +1,31 @@
-const setup = require("./setup/index");
+const setup = require("./setup");
 const log = require("./tools/printWithColors");
-const editor = require("./editing/index");
-const process = require('process');
+const { convertSize } = require("./editing/convertSize");
+const { inputSource } = require("./editing/inputSource");
 
-(async () => {
-    const resolution = process.argv[2];
-    // -crf 23 -preset medium -c:a aac -b:a 320k -ac 2 -ar 44100
-    // log(`URL ${url}`, 'yellow')
-    log(`Starting setup...`, "yellow");
-    const dname = await setup(__dirname);
-    const randomNumber = Math.floor(Math.random() * 9) + 1;
-    await editor({
-        resolution,
-        dname,
-        audio: 1,
-        filter: randomNumber,
-        gpu:'h264_nvenc -preset fast -cq 23 -c:a aac -b:a 192k '
+async function convertVideos(sources = []) {
+  const convertAll = () =>
+    sources.map(async (video) => {
+      const convert = await convertSize("TIKTOK", video);
+      return convert;
     });
 
-})()
+  await Promise.allSettled(convertAll()).catch(log);
+}
+
+(async () => {
+  // const resolution = process.argv[2];
+  log(`Starting setup...`, "yellow");
+  const dname = await setup(__dirname);
+
+  log(`Starting Editing...`, "yellow");
+  try {
+    const sources = await inputSource({ dname });
+    // log(`source`, sources)
+    if (Array.isArray(sources)) {
+      await convertVideos(sources);
+    }
+  } catch (error) {
+    log(`get source`, error, "red");
+  }
+})();

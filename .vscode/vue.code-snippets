@@ -1,0 +1,12 @@
+{
+  "ui-display": {
+    "prefix": "ui:display",
+    "body": ["@core/ui/data-display"],
+    "description": ""
+  },
+  "ui-navigation": {
+    "prefix": "ui:navigation",
+    "body": ["@core/ui/navigation"],
+    "description": ""
+  }
+}
