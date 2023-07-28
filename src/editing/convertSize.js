@@ -1,4 +1,4 @@
-const ffmpeg = require("fluent-ffmpeg");
+const { ffmpeg } = require("../tools");
 const log = require("../tools/printWithColors");
 const selectEncoder = require("../tools/selectEncoder");
 
@@ -21,12 +21,13 @@ const TEMPLATE = {
  * inputPath: string,
  * outputPath: string
  * inputFile: string
+ * encoder: string
  *
  * }}  - Path to the input video file
  */
 async function convertSize(
   template = "TIKTOK",
-  { inputPath, outputPath, inputFile }
+  { inputPath, outputPath, inputFile, encoder }
 ) {
   const { aspectRatio } = TEMPLATE[template];
 
@@ -55,8 +56,6 @@ async function convertSize(
   const cropHeight = Math.min(outputHeight, inputHeight);
 
   const cropWidth = Math.floor((cropHeight * aspectRatio[0]) / aspectRatio[1]);
-
-  const encoder = await selectEncoder();
 
   return new Promise((resolve, reject) => {
     ffmpeg(inputPath)
